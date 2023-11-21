@@ -2,7 +2,7 @@ munhequeira(azul).
 munhequeira(branca).
 munhequeira(verde).
 munhequeira(vermelha).
-munhequeira(preta).
+munhequeira(amarela).
 
 nome(anderson).
 nome(bruno).
@@ -16,11 +16,11 @@ camisa(23).
 camisa(32).
 camisa(45).
 
-altura(1.90).
-altura(1.95).
-altura(2.00).
-altura(2.05).
-altura(2.10).
+altura(190).
+altura(195).
+altura(200).
+altura(205).
+altura(210).
 
 idade(20).
 idade(23).
@@ -50,7 +50,7 @@ naBorda(X,Lista) :- last(Lista,X).
 naBorda(X,[X|_]).
 
 % X está entre Y e Z
-entre(X,Y,Z,Lista) :- aDireita(X,Y,Lista), aEsquerda(X,Z,Lista).
+entre(X,Y,Z,Lista) :- aEsquerda(Y,X,Lista), aEsquerda(X,Z,Lista).
 
 todosDiferentes([]).
 todosDiferentes([H|T]) :- not(member(H,T)), todosDiferentes(T).
@@ -69,7 +69,7 @@ solucao(ListaSolucao) :-
     Estado3 = parana,
 
     % Tiago está exatamente à esquerda do jogador de 23 anos.
-    aoLado(jogador(_,tiago,_,_,_,_), jogador(_,_,_,_,23,_), ListaSolucao),
+    nextto(jogador(_,tiago,_,_,_,_), jogador(_,_,_,_,23,_), ListaSolucao),
 
     % Em uma das pontas está o jogador que está usando a munhequeira Branca.
     naBorda(jogador(branca,_,_,_,_,_), ListaSolucao),
@@ -84,16 +84,16 @@ solucao(ListaSolucao) :-
     Estado4 = pernambuco,
 
     % O jogador de munhequeira Amarela está exatamente à direita do jogador de munhequeira Verde.
-    aDireita(jogador(verde,_,_,_,_,_), jogador(amarela,_,_,_,_,_), ListaSolucao),
+    nextto(jogador(verde,_,_,_,_,_), jogador(amarela,_,_,_,_,_), ListaSolucao),
 
     % O camisa 8 está em algum lugar entre os camisas 45 e 23, nessa ordem.
     entre(jogador(_,_,8,_,_,_), jogador(_,_,45,_,_,_), jogador(_,_,23,_,_,_), ListaSolucao),
     
     % O jogador mais baixo está exatamente à esquerda do jogador mais velho.
-    aoLado(jogador(_,_,_,1.90,_,_), jogador(_,_,_,_,31,_), ListaSolucao),
+    nextto(jogador(_,_,_,190,_,_), jogador(_,_,_,_,31,_), ListaSolucao),
     
     % O jogador de 26 anos está exatamente à direita do jogador de 2,05 m.
-    aoLado(jogador(_,_,_,2.05,_,_), jogador(_,_,_,_,26,_), ListaSolucao),
+    nextto(jogador(_,_,_,205,_,_), jogador(_,_,_,_,26,_), ListaSolucao),
 
     % O Paranaense usa a camisa 32.
     member(jogador(_,_,32,_,_,parana), ListaSolucao),
@@ -102,28 +102,28 @@ solucao(ListaSolucao) :-
     Idade4 = 31,
 
     % O jogador que nasceu no Acre está ao lado do jogador de 2,05 m.
-    aoLado(jogador(_,_,_,2.05,_,_), jogador(_,_,_,_,_,acre), ListaSolucao),
+    aoLado(jogador(_,_,_,205,_,_), jogador(_,_,_,_,_,acre), ListaSolucao),
 
     % O jogador de 2,00 m está ao lado do jogador que é 10 cm menor que ele.
-    aoLado(jogador(_,_,_,2.00,_,_), jogador(_,_,_,1.90,_,_), ListaSolucao),
+    aoLado(jogador(_,_,_,200,_,_), jogador(_,_,_,190,_,_), ListaSolucao),
 
     % Marcelo está em algum lugar entre o jogador de 2,05 m e o Bruno, nessa ordem.
-    entre(jogador(_,marcelo,_,_,_,_), jogador(_,_,_,2.05,_,_), jogador(_,bruno,_,_,_,_), ListaSolucao),
+    entre(jogador(_,marcelo,_,_,_,_), jogador(_,_,_,205,_,_), jogador(_,bruno,_,_,_,_), ListaSolucao),
 
     % O Mineiro está ao lado do jogador de 2,10 m.
-    aoLado(jogador(_,_,_,2.10,_,_), jogador(_,_,_,_,_,minasGerais), ListaSolucao),
+    aoLado(jogador(_,_,_,210,_,_), jogador(_,_,_,_,_,minasGerais), ListaSolucao),
 
     % Leandro está na terceira posição.
     Nome3 = leandro,
 
     % O jogador da região Centro-oeste está exatamente à esquerda do jogador da munhequeira Vermelha.
-    aoLado(jogador(_,_,_,_,_,matoGrossoDoSul), jogador(vermelha,_,_,_,_,_), ListaSolucao),
+    nextto(jogador(_,_,_,_,_,matoGrossoDoSul), jogador(vermelha,_,_,_,_,_), ListaSolucao),
 
     % O jogador de 23 anos está em algum lugar entre o jogador da camisa 45 e o jogador mais novo, nessa ordem.
-    entre(jogador(_,_,45,_,_,_), jogador(_,_,45,_,_,_), jogador(_,_,20,_,_,_), ListaSolucao),
+    entre(jogador(_,_,_,_,23,_), jogador(_,_,45,_,_,_), jogador(_,_,_,_,20,_), ListaSolucao),
 
     % Tiago está exatamente à direita do jogador da camisa 6.
-    aoLado(jogador(_,tiago,_,_,_,_), jogador(_,_,6,_,_,_), ListaSolucao),
+    nextto(jogador(_,_,6,_,_,_), jogador(_,tiago,_,_,_,_), ListaSolucao),
 
     % Testa todas as possibilidades
     munhequeira(Munhequeira1), munhequeira(Munhequeira2), munhequeira(Munhequeira3), munhequeira(Munhequeira4), munhequeira(Munhequeira5),
